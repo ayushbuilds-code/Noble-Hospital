@@ -3,12 +3,15 @@ import { BolnaWebCall, CallState, CallError } from '@bolna/web-call';
 const BOLNA_AGENT_ID_KEY = 'nh_bolna_agent_id';
 const BOLNA_API_KEY_KEY = 'nh_bolna_api_key';
 
+export const DEFAULT_BOLNA_API_KEY = 'bn-6c178c13ca9845c49dc08dfa2547f4d7';
+export const DEFAULT_BOLNA_AGENT_ID = '5ac1996a-3a8f-4097-9e9f-e5d48641776b';
+
 export const getBolnaAgentId = (): string => {
-  return localStorage.getItem(BOLNA_AGENT_ID_KEY) || import.meta.env.VITE_BOLNA_AGENT_ID || '';
+  return localStorage.getItem(BOLNA_AGENT_ID_KEY) || import.meta.env.VITE_BOLNA_AGENT_ID || DEFAULT_BOLNA_AGENT_ID;
 };
 
 export const getBolnaApiKey = (): string => {
-  return localStorage.getItem(BOLNA_API_KEY_KEY) || import.meta.env.VITE_BOLNA_API_KEY || '';
+  return localStorage.getItem(BOLNA_API_KEY_KEY) || import.meta.env.VITE_BOLNA_API_KEY || DEFAULT_BOLNA_API_KEY;
 };
 
 export const saveBolnaConfig = (agentId: string, apiKey: string) => {
@@ -45,21 +48,46 @@ export class NehaVoiceClient {
   }
 
   public async startCall(): Promise<void> {
-    if (!isBolnaConfigured()) {
+    const agentId = getBolnaAgentId();
+    const apiKey = getBolnaApiKey();
+
+    if (!agentId || !apiKey) {
       const err = {
         code: 'NOT_CONFIGURED',
-        message: 'Bolna Voice Agent credentials not found. Please provide Bolna Agent ID & API Key in the settings.'
+        message: 'Bolna Voice Agent credentials not found.'
       };
       if (this.onErrorCb) this.onErrorCb(err);
       throw new Error(err.message);
     }
 
     try {
-      // Create session fetcher for ephemeral credential minting
+      // Session fetcher with direct and proxy fallback
       const getSession = async () => {
-        const agentId = getBolnaAgentId();
-        const apiKey = getBolnaApiKey();
+        try {
+          const directRes = await fetch('https://api.bolna.ai/web-call/freeswitch-session', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              agent_id: agentId,
+              user_data: {
+                hospital: 'Noble Hospital',
+                receptionist: 'Neha',
+                capabilities: 'Appointments, Departments, Timings, Doctors'
+              }
+            })
+          });
 
+          if (directRes.ok) {
+            return await directRes.json();
+          }
+        } catch (directErr) {
+          console.warn('Direct Bolna session call failed, trying proxy...', directErr);
+        }
+
+        // Fallback to local dev proxy
         const response = await fetch('/api/bolna-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -68,8 +96,7 @@ export class NehaVoiceClient {
             apiKey,
             user_data: {
               hospital: 'Noble Hospital',
-              receptionist: 'Neha',
-              capabilities: 'Appointments, Departments, Timings, Doctors'
+              receptionist: 'Neha'
             }
           })
         });
@@ -143,4 +170,3 @@ export class NehaVoiceClient {
     return this.callInstance ? this.callInstance.getState() : 'idle';
   }
 }
-

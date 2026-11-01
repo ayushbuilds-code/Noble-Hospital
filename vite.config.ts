@@ -34,8 +34,8 @@ export default defineConfig(({ mode }) => {
                   }
                 }
 
-                const apiKey = parsedBody.apiKey || env.BOLNA_API_KEY || process.env.BOLNA_API_KEY;
-                const agentId = parsedBody.agentId || env.BOLNA_AGENT_ID || process.env.BOLNA_AGENT_ID;
+                const apiKey = parsedBody.apiKey || env.BOLNA_API_KEY || process.env.BOLNA_API_KEY || 'bn-6c178c13ca9845c49dc08dfa2547f4d7';
+                const agentId = parsedBody.agentId || env.BOLNA_AGENT_ID || process.env.BOLNA_AGENT_ID || '5ac1996a-3a8f-4097-9e9f-e5d48641776b';
 
                 if (!apiKey || !agentId) {
                   res.statusCode = 400;
@@ -88,6 +88,7 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             'vendor-react': ['react', 'react-dom', 'react-router-dom'],
             'vendor-supabase': ['@supabase/supabase-js'],
+            'vendor-bolna': ['@bolna/web-call'],
             'vendor-icons': ['lucide-react']
           }
         }
