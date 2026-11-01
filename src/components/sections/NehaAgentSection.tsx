@@ -59,16 +59,6 @@ export const NehaAgentSection: React.FC = () => {
       }
     } catch (err: any) {
       console.warn('Bolna startCall failed:', err);
-      // Fallback: also try triggering any floating widget if present
-      try {
-        const host = document.querySelector('div[aria-label="Voice assistant"]');
-        if (host && host.shadowRoot) {
-          const btn = host.shadowRoot.querySelector<HTMLButtonElement>('button');
-          if (btn) btn.click();
-        }
-      } catch (e) {
-        // ignore
-      }
     }
   };
 
