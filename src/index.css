@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body {
+    background-color: #F8FAFC;
+    color: #1E293B;
+  }
+}
+
+/* Custom soundwave pulse animation for Neha */
+@keyframes wave-pulse {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-wave-1 {
+  animation: wave-pulse 1.2s ease-in-out infinite;
+}
+.animate-wave-2 {
+  animation: wave-pulse 0.9s ease-in-out infinite 0.15s;
+}
+.animate-wave-3 {
+  animation: wave-pulse 1.4s ease-in-out infinite 0.3s;
+}
+.animate-wave-4 {
+  animation: wave-pulse 1.0s ease-in-out infinite 0.45s;
+}
+.animate-wave-5 {
+  animation: wave-pulse 1.3s ease-in-out infinite 0.2s;
+}
+
+/* Subtle glow */
+.glow-teal {
+  box-shadow: 0 0 25px rgba(22, 166, 160, 0.35);
+}
+.glow-blue {
+  box-shadow: 0 0 25px rgba(18, 59, 103, 0.25);
+}
+
