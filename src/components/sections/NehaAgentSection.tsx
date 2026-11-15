@@ -158,10 +158,17 @@ export const NehaAgentSection: React.FC = () => {
         {/* Central Assistant Interface Card */}
         <div className="max-w-3xl mx-auto bg-gradient-to-b from-[#F8FAFC] to-white rounded-3xl border border-slate-200/90 shadow-soft-lg p-6 sm:p-10 relative">
           
-          {/* Top status indicator */}
-          <div className="flex items-center justify-center pb-6 border-b border-slate-100">
-            <div className="flex items-center gap-2">
+          {/* Top status indicator & Corner Branding */}
+          <div className="flex items-center justify-between pb-6 border-b border-slate-100 gap-2">
+            <div className="hidden sm:block sm:w-28"></div>
+            <div className="flex items-center gap-2 mx-auto sm:mx-0">
               {getStatusBadge()}
+            </div>
+            <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400 shrink-0">
+              <span className="text-[11px] text-slate-400">Powered by</span>
+              <span className="text-xs font-bold text-[#123B67] bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200/80 shadow-xs">
+                Tri-Nexus
+              </span>
             </div>
           </div>
 
@@ -323,6 +330,20 @@ export const NehaAgentSection: React.FC = () => {
                 <span className="font-medium text-[#123B67] block">"Where is the emergency department located?"</span>
                 <span className="text-[11px] text-slate-400">Campus directions & 24/7 hotline</span>
               </div>
+            </div>
+          </div>
+
+          {/* Widget Footer Bar / Corner Branding */}
+          <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+            <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              <span>24/7 AI Voice Receptionist</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs font-medium">
+              <span className="text-[11px] text-slate-400">Powered by</span>
+              <span className="font-bold text-[#123B67] hover:text-[#16A6A0] transition-colors">
+                Tri-Nexus
+              </span>
             </div>
           </div>
 
