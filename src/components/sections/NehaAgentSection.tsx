@@ -167,7 +167,7 @@ export const NehaAgentSection: React.FC = () => {
             <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400 shrink-0">
               <span className="text-[11px] text-slate-400">Powered by</span>
               <span className="text-xs font-bold text-[#123B67] bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200/80 shadow-xs">
-                Tri-Nexus
+                Nuravia
               </span>
             </div>
           </div>
@@ -342,7 +342,7 @@ export const NehaAgentSection: React.FC = () => {
             <div className="flex items-center gap-1.5 text-xs font-medium">
               <span className="text-[11px] text-slate-400">Powered by</span>
               <span className="font-bold text-[#123B67] hover:text-[#16A6A0] transition-colors">
-                Tri-Nexus
+                Nuravia
               </span>
             </div>
           </div>
